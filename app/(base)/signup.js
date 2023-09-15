@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Input, Button } from "react-native-elements";
 import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { setDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { COLORS, SIZES } from "../../constants/theme";
 import { FBAUTH, FBDB } from "../../firebaseConfig";
 
@@ -31,13 +30,6 @@ const signup = () => {
         updateProfile(FBAUTH.currentUser, {
           displayName: username,
         });
-        // const profile = {
-        //   email,
-        //   username,
-        //   created_at: serverTimestamp(),
-        // };
-        // const userRef = doc(db, "users", response.user.uid);
-        // const userData = await setDoc(userRef, profile);
       } catch (err) {
         alert(err);
       }
