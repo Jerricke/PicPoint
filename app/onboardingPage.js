@@ -1,9 +1,8 @@
 import { Image, Text, View, StyleSheet } from "react-native";
 import React from "react";
 import Onboarding from "react-native-onboarding-swiper";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { SIZES, COLORS } from "../constants/theme";
+import { SIZES } from "../constants/theme";
 
 function onboardingPage() {
   const router = useRouter();

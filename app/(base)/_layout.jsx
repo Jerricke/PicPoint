@@ -4,12 +4,11 @@ import { Stack } from "expo-router";
 
 function BaseLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="login" />
+      <Stack.Screen name="signup" />
     </Stack>
   );
 }
-
-export default BaseLayout;
 
 const styles = StyleSheet.create({});

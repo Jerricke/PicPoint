@@ -10,21 +10,20 @@ const signup = () => {
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
 
-  const handleSignIn = () => {};
+  // const erroritem = !true ? "Plesae Input The Correct Password" : null;
 
-  const handleNewAcc = () => {
-    router.push("/signup");
-  };
+  const handleSignUp = () => {};
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <Image
+          {/* <Image
             style={styles.logo}
             source={require("../../assets/Screenshot_2023-09-15_at_12.55.16_PM-removebg-preview.png")}
-          />
+          /> */}
           <View style={styles.inputBox}>
             <Input
               placeholder="email"
@@ -39,6 +38,15 @@ const signup = () => {
               leftIcon={{ type: "font-awesome", name: "lock" }}
               onChangeText={(value) => setPassword(value)}
               autoCapitalize="none"
+              // errorMessage={erroritem}
+            />
+            <Input
+              placeholder="password confirmation"
+              value={confirmPassword}
+              leftIcon={{ type: "font-awesome", name: "lock" }}
+              onChangeText={(value) => setConfirmPassword(value)}
+              autoCapitalize="none"
+              // errorMessage={erroritem}
             />
             <Button
               buttonStyle={{
@@ -49,19 +57,10 @@ const signup = () => {
                 borderRadius: "10%",
               }}
               titleStyle={{ color: COLORS.c4 }}
-              title="Sign In"
+              title="Create New Account"
               type="outline"
-              onPress={handleSignIn}
+              onPress={handleSignUp}
             />
-
-            <TouchableOpacity style={styles.newAcc} onPress={handleNewAcc}>
-              <Text>
-                <Text>Not signed up? Create a </Text>
-                <Text style={{ fontWeight: "bold", color: COLORS.c4 }}>
-                  new account.
-                </Text>
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
