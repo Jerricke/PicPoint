@@ -3,15 +3,24 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input, Button } from "react-native-elements";
 import { useRouter } from "expo-router";
+import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { COLORS, SIZES } from "../../constants/theme";
+import { FBAUTH } from "../../firebaseConfig";
 
 const signup = () => {
   const router = useRouter();
+  const auth = FBAUTH;
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const handleSignIn = () => {};
+  const handleSignIn = async () => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      alert(`Sign In Failed: ${err}`);
+    }
+  };
 
   const handleNewAcc = () => {
     router.push("/signup");
@@ -39,6 +48,7 @@ const signup = () => {
               leftIcon={{ type: "font-awesome", name: "lock" }}
               onChangeText={(value) => setPassword(value)}
               autoCapitalize="none"
+              secureTextEntry
             />
             <Button
               buttonStyle={{
