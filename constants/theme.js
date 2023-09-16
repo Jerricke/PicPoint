@@ -3,6 +3,8 @@ export const COLORS = {
   c2: "#FFE5CA",
   c3: "#FA9884",
   c4: "#E74646",
+  c5: "#C33946",
+  c6: "#FFC95C",
 };
 
 export const SIZES = {
