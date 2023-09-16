@@ -12,7 +12,6 @@ export function UserProvider({ children }) {
   const [ping, setPing] = useState(null);
 
   useEffect(() => {
-    console.log("ping");
     onAuthStateChanged(auth, (user) => {
       if (user?.uid) {
         setUserProfile(user);

@@ -35,7 +35,6 @@ const profile = () => {
   };
 
   useEffect(() => {
-    console.log(userData);
     Animated.parallel([
       Animated.loop(
         Animated.sequence([
@@ -92,7 +91,7 @@ const profile = () => {
         <View style={styles.userContainer}>
           <DisplayCard displayData={userProfile?.displayName} />
           <DisplayCard displayData={userProfile?.email} />
-          <DisplayBio onPress={handleAddBio} />
+          <DisplayBio onPress={handleAddBio} displayData={userData?.bio} />
         </View>
         <Button
           buttonStyle={{

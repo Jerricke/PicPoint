@@ -4,10 +4,11 @@ import { Button } from "react-native-elements";
 import { SIZES, COLORS } from "../../../constants/theme";
 
 function DisplayBio({ displayData = null, ...rest }) {
+  console.log(displayData);
   return (
     <View style={styles.display}>
       {displayData ? (
-        <Text style={styles.displayText}>displayBio</Text>
+        <Text style={styles.displayText}>{displayData}</Text>
       ) : (
         <>
           <Text
