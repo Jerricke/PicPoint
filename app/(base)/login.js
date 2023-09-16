@@ -6,19 +6,26 @@ import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { COLORS, SIZES } from "../../constants/theme";
 import { FBAUTH } from "../../firebaseConfig";
+import useUser from "../../context/useUser";
 
 const signup = () => {
   const router = useRouter();
   const auth = FBAUTH;
+  const { setUserData } = useUser();
+  const [hasUser, setHasUser] = useState(null);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
   const handleSignIn = async () => {
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      setHasUser(await signInWithEmailAndPassword(auth, email, password));
+      router.push({ pathname: "/(logged-in)/home" });
     } catch (err) {
       alert(`Sign In Failed: ${err}`);
+    } finally {
+      setEmail(null);
+      setPassword(null);
     }
   };
 

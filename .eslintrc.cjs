@@ -32,5 +32,9 @@ module.exports = {
     "import/prefer-default-export": 0,
     "react-hooks/rules-of-hooks": 0,
     "react/prop-types": 0,
+    "react/jsx-no-constructed-context-values": 0,
+    "consistent-return": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "react/no-unstable-nested-components": 0,
   },
 };
