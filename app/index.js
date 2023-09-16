@@ -21,14 +21,9 @@ function Index() {
         setIsFirstLaunch(true);
       }
     });
-    onAuthStateChanged(auth, (user) => {
-      if (user?.uid) {
-        setUserData(user);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
   }, []);
 
   // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page

@@ -29,9 +29,7 @@ const profile = () => {
   };
 
   useEffect(() => {
-    console.log(glob);
-    setData(glob);
-    console.log(data);
+    console.log(userData);
   }, []);
 
   return (

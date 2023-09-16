@@ -10,12 +10,14 @@ import { ActivityIndicator, Avatar } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants/theme";
 import { FBAUTH, FBDB, FBSTORAGE } from "../../firebaseConfig";
+import useUser from "../../context/useUser";
 
 const signup = () => {
   const router = useRouter();
   const auth = FBAUTH;
   const db = FBDB;
   const storage = FBSTORAGE;
+  const { setPing } = useUser();
 
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
@@ -42,12 +44,9 @@ const signup = () => {
         updateProfile(FBAUTH.currentUser, {
           displayName: username,
           photoURL: image,
-        }).then((res) => {
-          router.push({
-            pathname: "/(logged-in)/home",
-            params: { user: { ...res } },
-          });
         });
+        setPing(null);
+        router.push("/(logged-in)/home");
       } catch (err) {
         alert(err);
       } finally {

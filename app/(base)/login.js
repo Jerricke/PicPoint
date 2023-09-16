@@ -11,7 +11,7 @@ import useUser from "../../context/useUser";
 const signup = () => {
   const router = useRouter();
   const auth = FBAUTH;
-  const { setUserData } = useUser();
+  const { setPing } = useUser();
   const [hasUser, setHasUser] = useState(null);
 
   const [email, setEmail] = useState(null);
@@ -19,8 +19,9 @@ const signup = () => {
 
   const handleSignIn = async () => {
     try {
-      setHasUser(await signInWithEmailAndPassword(auth, email, password));
-      router.push({ pathname: "/(logged-in)/home" });
+      await signInWithEmailAndPassword(auth, email, password);
+      setPing(null);
+      router.push("/(logged-in)/home");
     } catch (err) {
       alert(`Sign In Failed: ${err}`);
     } finally {

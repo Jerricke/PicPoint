@@ -8,9 +8,6 @@ import { FBDB } from "../../../firebaseConfig";
 const home = () => {
   const [displayData, setDisplayData] = useState(null);
   const db = FBDB;
-  const loc = useLocalSearchParams();
-
-  console.log(loc.user);
 
   useEffect(() => {
     const ref = collection(db, "community-posts");
