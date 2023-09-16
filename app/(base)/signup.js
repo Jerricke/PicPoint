@@ -43,8 +43,6 @@ const signup = () => {
   const handleSignUp = async () => {
     if (password === confirmPassword) {
       try {
-        const uploadedURL = uploadImageAsync(image);
-        setImage(uploadedURL);
         const response = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -52,12 +50,14 @@ const signup = () => {
         ).then((user) => {
           createUserDB(user.user);
         });
-        updateProfile(FBAUTH.currentUser, {
-          displayName: username,
-          photoURL: image,
+        const uploadedURL = await uploadImageAsync(image).then((res) => {
+          updateProfile(FBAUTH.currentUser, {
+            displayName: username,
+            photoURL: res,
+          });
+          setPing(null);
+          router.push("/(logged-in)/home");
         });
-        setPing(null);
-        router.push("/(logged-in)/home");
       } catch (err) {
         alert(err);
       } finally {
