@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useContext, createContext, useState, useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { FBAUTH as auth, FBDB as db } from "../firebaseConfig";
 
 const UserContext = createContext({});
@@ -12,10 +12,13 @@ export function UserProvider({ children }) {
   const [ping, setPing] = useState(null);
 
   useEffect(() => {
+    console.log("ping");
     onAuthStateChanged(auth, (user) => {
       if (user?.uid) {
         setUserProfile(user);
-        fetchUserData(user.uid);
+        const unsub = onSnapshot(doc(db, "users", user.uid), (docu) => {
+          setUserData(docu.data());
+        });
       }
     });
   }, [ping]);

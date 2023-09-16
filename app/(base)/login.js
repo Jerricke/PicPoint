@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input, Button } from "react-native-elements";
@@ -35,7 +42,7 @@ const signup = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <Image
@@ -83,7 +90,7 @@ const signup = () => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

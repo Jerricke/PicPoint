@@ -23,7 +23,7 @@ function Index() {
     });
     setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 2000);
   }, []);
 
   // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page
@@ -34,6 +34,7 @@ function Index() {
     if (userData) {
       return <Redirect href="/(base)/(logged-in)/profile" />;
     }
+    console.log("no user data");
     return <Redirect href="/(base)/login" />;
   }
 

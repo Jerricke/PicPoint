@@ -3,12 +3,28 @@ import React from "react";
 import { Button } from "react-native-elements";
 import { SIZES, COLORS } from "../../../constants/theme";
 
-function DisplayBio({ displayData = null, ...rest }) {
-  console.log(displayData);
+function DisplayBio({ setIsEditing, displayData = null, ...rest }) {
   return (
     <View style={styles.display}>
       {displayData ? (
-        <Text style={styles.displayText}>{displayData}</Text>
+        <>
+          <Text style={styles.displayBioTitle}>User Bio</Text>
+          <Text style={styles.displayText}>{displayData}</Text>
+          <Button
+            buttonStyle={{
+              borderColor: COLORS.c1,
+              borderWidth: 2,
+              width: "30%",
+              height: "auto",
+              alignSelf: "flex-end",
+              borderRadius: "10%",
+            }}
+            titleStyle={{ color: COLORS.c1, fontSize: SIZES.s1 }}
+            title="Edit Bio?"
+            type="outline"
+            onPress={() => setIsEditing(true)}
+          />
+        </>
       ) : (
         <>
           <Text
@@ -45,9 +61,16 @@ const styles = StyleSheet.create({
   display: {
     alignSelf: "center",
     padding: SIZES.s2,
+    width: "100%",
   },
   displayText: {
     color: COLORS.c1,
     fontSize: SIZES.s2,
+    marginBottom: SIZES.s1,
+  },
+  displayBioTitle: {
+    color: COLORS.c1,
+    fontWeight: "bold",
+    marginBottom: SIZES.s1,
   },
 });

@@ -36,5 +36,7 @@ module.exports = {
     "consistent-return": 0,
     "react-hooks/exhaustive-deps": 0,
     "react/no-unstable-nested-components": 0,
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
   },
 };

@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input, Button } from "react-native-elements";
@@ -36,7 +43,8 @@ const signup = () => {
   const handleSignUp = async () => {
     if (password === confirmPassword) {
       try {
-        uploadImageAsync(image);
+        const uploadedURL = uploadImageAsync(image);
+        setImage(uploadedURL);
         const response = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -118,6 +126,7 @@ const signup = () => {
       // We're done with the blob, close and release it
       blob.close();
       const uploaded = await getDownloadURL(fileRef);
+      console.log(uploaded);
       return uploaded;
     } catch (e) {
       alert(`Error :  ${e}`);
@@ -125,9 +134,10 @@ const signup = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <AntDesign
         style={{
+          marginTop: SIZES.s6,
           marginLeft: 15,
         }}
         name="back"
@@ -237,7 +247,7 @@ const signup = () => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

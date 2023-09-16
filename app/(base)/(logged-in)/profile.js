@@ -4,18 +4,22 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "react-native-elements";
 import { signOut } from "firebase/auth";
 import { useRouter } from "expo-router";
-import { Avatar } from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
 import { setDoc, doc } from "firebase/firestore";
 import { COLORS, SIZES } from "../../../constants/theme";
 import { FBAUTH, FBDB } from "../../../firebaseConfig";
 import DisplayCard from "../../../components/login/profile/displayCard";
 import DisplayBio from "../../../components/login/profile/displayBio";
 import useUser from "../../../context/useUser";
+import BioEditor from "../../../components/login/profile/bioEditor";
 
 const profile = () => {
   const router = useRouter();
   const auth = FBAUTH;
   const { userProfile, setUserProfile, setPing, userData } = useUser();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [bioText, setBioText] = useState(userData?.bio);
   const [data, setData] = useState(null);
 
   const breathing = useRef(new Animated.Value(0.9)).current;
@@ -35,6 +39,7 @@ const profile = () => {
   };
 
   useEffect(() => {
+    console.log(userProfile);
     Animated.parallel([
       Animated.loop(
         Animated.sequence([
@@ -74,7 +79,8 @@ const profile = () => {
 
   const handleAddBio = async () => {
     const makeData = await setDoc(doc(FBDB, "users", userProfile.uid), {
-      bio: "test string",
+      ...userData,
+      bio: bioText,
     });
   };
 
@@ -91,14 +97,29 @@ const profile = () => {
         <View style={styles.userContainer}>
           <DisplayCard displayData={userProfile?.displayName} />
           <DisplayCard displayData={userProfile?.email} />
-          <DisplayBio onPress={handleAddBio} displayData={userData?.bio} />
+          {isEditing ? (
+            <BioEditor
+              setIsEditing={setIsEditing}
+              setBioText={setBioText}
+              bioText={bioText}
+              handleAddBio={handleAddBio}
+            />
+          ) : (
+            <DisplayBio
+              onPress={() => setIsEditing(true)}
+              displayData={userData?.bio}
+              setIsEditing={setIsEditing}
+            />
+          )}
         </View>
         <Button
           buttonStyle={{
-            borderColor: COLORS.c3,
+            borderColor: COLORS.c1,
             borderWidth: 2,
-            width: "75%",
-            alignSelf: "center",
+            width: "auto",
+            alignSelf: "flex-end",
+            marginTop: SIZES.s3,
+            marginRight: "10%",
             borderRadius: "10%",
           }}
           titleStyle={{ color: COLORS.c4 }}
