@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import { ActivityIndicator, Avatar } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import { doc, setDoc } from "firebase/firestore";
 import { COLORS, SIZES } from "../../constants/theme";
 import { FBAUTH, FBDB, FBSTORAGE } from "../../firebaseConfig";
 import useUser from "../../context/useUser";
@@ -40,7 +41,9 @@ const signup = () => {
           auth,
           email,
           password,
-        );
+        ).then((user) => {
+          createUserDB(user.user);
+        });
         updateProfile(FBAUTH.currentUser, {
           displayName: username,
           photoURL: image,
@@ -58,6 +61,12 @@ const signup = () => {
       }
     }
   };
+
+  async function createUserDB(user) {
+    await setDoc(doc(db, "users", user.uid), {
+      createdAt: Date.now(),
+    });
+  }
 
   const pickImage = async () => {
     setIsLoading(true);

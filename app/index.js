@@ -23,7 +23,7 @@ function Index() {
     });
     setTimeout(() => {
       setIsLoading(false);
-    }, 300);
+    }, 500);
   }, []);
 
   // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page

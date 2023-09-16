@@ -5,24 +5,27 @@ import { Button } from "react-native-elements";
 import { signOut } from "firebase/auth";
 import { useRouter } from "expo-router";
 import { Avatar } from "react-native-paper";
+import { setDoc, doc } from "firebase/firestore";
 import { COLORS, SIZES } from "../../../constants/theme";
-import { FBAUTH } from "../../../firebaseConfig";
-import useUser from "../../../context/useUser";
+import { FBAUTH, FBDB } from "../../../firebaseConfig";
 import DisplayCard from "../../../components/login/profile/displayCard";
+import DisplayBio from "../../../components/login/profile/displayBio";
+import useUser from "../../../context/useUser";
 
 const profile = () => {
   const router = useRouter();
   const auth = FBAUTH;
-  const { userData, setUserData } = useUser();
+  const { userProfile, setUserProfile, setPing, userData } = useUser();
   const [data, setData] = useState(null);
 
   const breathing = useRef(new Animated.Value(0.9)).current;
   const breathing2 = useRef(new Animated.Value(1.05)).current;
 
   const handleSignOut = () => {
+    setPing(null);
     signOut(auth)
       .then(() => {
-        setUserData(null);
+        setUserProfile(null);
         router.push("/login");
       })
       .catch((error) => {
@@ -32,6 +35,7 @@ const profile = () => {
   };
 
   useEffect(() => {
+    console.log(userData);
     Animated.parallel([
       Animated.loop(
         Animated.sequence([
@@ -69,6 +73,12 @@ const profile = () => {
     // console.log(userData?.photoURL);
   }, []);
 
+  const handleAddBio = async () => {
+    const makeData = await setDoc(doc(FBDB, "users", userProfile.uid), {
+      bio: "test string",
+    });
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.c1, position: "relative" }}>
       <View style={styles.mainContainer}>
@@ -76,12 +86,13 @@ const profile = () => {
           <Avatar.Image
             style={styles.pfpIcon}
             size={200}
-            source={{ uri: userData?.photoURL }}
+            source={{ uri: userProfile?.photoURL }}
           />
         </View>
         <View style={styles.userContainer}>
-          <DisplayCard displayData={userData?.displayName} />
-          <DisplayCard displayData={userData?.email} />
+          <DisplayCard displayData={userProfile?.displayName} />
+          <DisplayCard displayData={userProfile?.email} />
+          <DisplayBio onPress={handleAddBio} />
         </View>
         <Button
           buttonStyle={{
