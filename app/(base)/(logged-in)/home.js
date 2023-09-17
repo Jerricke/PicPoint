@@ -7,41 +7,41 @@ import { FBDB } from "../../../firebaseConfig";
 import { COLORS } from "../../../constants/theme";
 
 const home = () => {
-  const [displayData, setDisplayData] = useState(null);
-  const db = FBDB;
+    const [displayData, setDisplayData] = useState(null);
+    const db = FBDB;
 
-  useEffect(() => {
-    const ref = collection(db, "global-posts");
+    useEffect(() => {
+        const ref = collection(db, "global-posts");
 
-    const subscriber = onSnapshot(ref, {
-      next: (snapshot) => {
-        const posts = [];
-        // console.log(snapshot)
-        snapshot.docs.forEach((doc) => {
-          posts.push({
-            id: doc.id,
-            ...doc.data(),
-          });
+        const subscriber = onSnapshot(ref, {
+            next: (snapshot) => {
+                const posts = [];
+                // console.log(snapshot)
+                snapshot.docs.forEach((doc) => {
+                    posts.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    });
+                });
+                setDisplayData(posts);
+            },
         });
-        setDisplayData(posts);
-      },
-    });
-    return () => subscriber();
-  }, []);
+        return () => subscriber();
+    }, []);
 
-  return (
-    <SafeAreaView style={{ backgroundColor: COLORS.c3 }}>
-      <View style={styles.container}>
-        <Text> test</Text>
-      </View>
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={{ backgroundColor: COLORS.c3 }}>
+            <View style={styles.container}>
+                <Text> test</Text>
+            </View>
+        </SafeAreaView>
+    );
 };
 
 export default home;
 
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-  },
+    container: {
+        height: "100%",
+    },
 });

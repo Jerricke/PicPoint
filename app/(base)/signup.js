@@ -1,10 +1,10 @@
 import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
+    Image,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    KeyboardAvoidingView,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,275 +21,289 @@ import { FBAUTH, FBDB, FBSTORAGE } from "../../firebaseConfig";
 import useUser from "../../context/useUser";
 
 const signup = () => {
-  const router = useRouter();
-  const auth = FBAUTH;
-  const db = FBDB;
-  const storage = FBSTORAGE;
-  const { setPing } = useUser();
+    const router = useRouter();
+    const auth = FBAUTH;
+    const db = FBDB;
+    const storage = FBSTORAGE;
+    const { setPing } = useUser();
 
-  const [email, setEmail] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const [image, setImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
+    const [image, setImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
-  // const erroritem = !true ? "Plesae Input The Correct Password" : null;
+    // const erroritem = !true ? "Plesae Input The Correct Password" : null;
 
-  const handleReturn = () => {
-    router.push("/login");
-  };
+    const handleReturn = () => {
+        router.push("/login");
+    };
 
-  const handleSignUp = async () => {
-    if (password === confirmPassword) {
-      setIsProcessing(true);
-      try {
-        const response = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        ).then((user) => {
-          createUserDB(user.user);
+    const handleSignUp = async () => {
+        if (password === confirmPassword) {
+            setIsProcessing(true);
+            try {
+                const response = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                ).then((user) => {
+                    createUserDB(user.user);
+                });
+                const uploadedURL = await uploadImageAsync(image).then(
+                    (res) => {
+                        updateProfile(FBAUTH.currentUser, {
+                            displayName: username,
+                            photoURL: res,
+                        });
+                        setPing(null);
+                        setIsProcessing(false);
+                        router.push("/(logged-in)/home");
+                    }
+                );
+            } catch (err) {
+                alert(err);
+            } finally {
+                setEmail(null);
+                setUsername(null);
+                setPassword(null);
+                setConfirmPassword(null);
+                setImage(null);
+                setIsProcessing(false);
+            }
+        }
+    };
+
+    async function createUserDB(user) {
+        await setDoc(doc(db, "users", user.uid), {
+            createdAt: Date.now(),
         });
-        const uploadedURL = await uploadImageAsync(image).then((res) => {
-          updateProfile(FBAUTH.currentUser, {
-            displayName: username,
-            photoURL: res,
-          });
-          setPing(null);
-          setIsProcessing(false);
-          router.push("/(logged-in)/home");
+    }
+
+    const pickImage = async () => {
+        setIsLoading(true);
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
         });
-      } catch (err) {
-        alert(err);
-      } finally {
-        setEmail(null);
-        setUsername(null);
-        setPassword(null);
-        setConfirmPassword(null);
+
+        // console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+            setInterval(() => {
+                setIsLoading(false);
+            }, 2000);
+        } else {
+            setInterval(() => {
+                setImage(null);
+                setIsLoading(false);
+            }, 2000);
+        }
+    };
+
+    const handleRemoveImage = () => {
         setImage(null);
-        setIsProcessing(false);
-      }
-    }
-  };
+    };
 
-  async function createUserDB(user) {
-    await setDoc(doc(db, "users", user.uid), {
-      createdAt: Date.now(),
-    });
-  }
+    const uploadImageAsync = async (uri) => {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", uri, true);
+            xhr.send(null);
+        });
 
-  const pickImage = async () => {
-    setIsLoading(true);
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+        try {
+            const fileRef = ref(storage, `userProfiles/image-${Date.now()}`);
+            const result = await uploadBytes(fileRef, blob);
 
-    // console.log(result);
+            // We're done with the blob, close and release it
+            blob.close();
+            const uploaded = await getDownloadURL(fileRef);
+            return uploaded;
+        } catch (e) {
+            alert(`Error :  ${e}`);
+        }
+    };
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setInterval(() => {
-        setIsLoading(false);
-      }, 2000);
-    } else {
-      setInterval(() => {
-        setImage(null);
-        setIsLoading(false);
-      }, 2000);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setImage(null);
-  };
-
-  const uploadImageAsync = async (uri) => {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-
-    try {
-      const fileRef = ref(storage, `userProfiles/image-${Date.now()}`);
-      const result = await uploadBytes(fileRef, blob);
-
-      // We're done with the blob, close and release it
-      blob.close();
-      const uploaded = await getDownloadURL(fileRef);
-      return uploaded;
-    } catch (e) {
-      alert(`Error :  ${e}`);
-    }
-  };
-
-  if (isProcessing)
+    if (isProcessing)
+        return (
+            <ActivityIndicator
+                style={{
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flex: 1,
+                }}
+                color={COLORS.c4}
+                size={100}
+            />
+        );
     return (
-      <ActivityIndicator
-        style={{ alignSelf: "center", justifyContent: "center", flex: 1 }}
-        color={COLORS.c4}
-        size={100}
-      />
-    );
-  return (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <AntDesign
-        style={{
-          marginTop: SIZES.s6,
-          marginLeft: 15,
-        }}
-        name="back"
-        size={28}
-        color={COLORS.c4}
-        onPress={handleReturn}
-      />
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          {/* <Image
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            <AntDesign
+                style={{
+                    marginTop: SIZES.s6,
+                    marginLeft: 15,
+                }}
+                name="back"
+                size={28}
+                color={COLORS.c4}
+                onPress={handleReturn}
+            />
+            <View style={styles.container}>
+                <View style={styles.inputContainer}>
+                    {/* <Image
             style={styles.logo}
             source={require("../../assets/Screenshot_2023-09-15_at_12.55.16_PM-removebg-preview.png")}
           /> */}
-          <View style={styles.inputBox}>
-            {!image ? (
-              <TouchableOpacity
-                style={{
-                  padding: 5,
-                  marginVertical: SIZES.s1,
-                  backgroundColor: COLORS.c1,
-                  borderColor: COLORS.c3,
-                  alignSelf: "center",
-                  borderWidth: 2,
-                  borderRadius: "10%",
-                  alignItems: "center",
-                  width: "50%",
-                }}
-                onPress={pickImage}
-              >
-                {isLoading ? (
-                  <View>
-                    <ActivityIndicator color={COLORS.c4} />
-                  </View>
-                ) : (
-                  <Text style={{ color: COLORS.c4 }}>Pick An Image</Text>
-                )}
-              </TouchableOpacity>
-            ) : (
-              <View
-                style={{
-                  padding: 10,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 5,
-                }}
-              >
-                <Avatar.Image size={96} source={{ uri: image }} />
-                <Button
-                  buttonStyle={{
-                    borderColor: COLORS.c3,
-                    borderWidth: 2,
-                    width: "80%",
-                    alignSelf: "center",
-                    borderRadius: "10%",
-                  }}
-                  titleStyle={{ color: COLORS.c4 }}
-                  title="Remove Image"
-                  type="outline"
-                  onPress={handleRemoveImage}
-                />
-              </View>
-            )}
-            <Input
-              placeholder="username"
-              value={username}
-              leftIcon={{ type: "font-awesome", name: "user" }}
-              onChangeText={(value) => setUsername(value)}
-              autoCapitalize="none"
-            />
-            <Input
-              placeholder="email"
-              value={email}
-              leftIcon={{ type: "font-awesome", name: "envelope" }}
-              onChangeText={(value) => setEmail(value)}
-              autoCapitalize="none"
-            />
-            <Input
-              placeholder="password"
-              value={password}
-              leftIcon={{ type: "font-awesome", name: "lock" }}
-              onChangeText={(value) => setPassword(value)}
-              autoCapitalize="none"
-              // errorMessage={erroritem}
-            />
-            <Input
-              placeholder="password confirmation"
-              value={confirmPassword}
-              leftIcon={{ type: "font-awesome", name: "lock" }}
-              onChangeText={(value) => setConfirmPassword(value)}
-              autoCapitalize="none"
-              // errorMessage={erroritem}
-            />
-            <Button
-              buttonStyle={{
-                borderColor: COLORS.c3,
-                marginVertical: SIZES.s1,
-                borderWidth: 2,
-                width: "75%",
-                alignSelf: "center",
-                borderRadius: "10%",
-              }}
-              titleStyle={{ color: COLORS.c4 }}
-              title="Create New Account"
-              type="outline"
-              onPress={handleSignUp}
-            />
-          </View>
-        </View>
-      </View>
-    </KeyboardAvoidingView>
-  );
+                    <View style={styles.inputBox}>
+                        {!image ? (
+                            <TouchableOpacity
+                                style={{
+                                    padding: 5,
+                                    marginVertical: SIZES.s1,
+                                    backgroundColor: COLORS.c1,
+                                    borderColor: COLORS.c3,
+                                    alignSelf: "center",
+                                    borderWidth: 2,
+                                    borderRadius: "10%",
+                                    alignItems: "center",
+                                    width: "50%",
+                                }}
+                                onPress={pickImage}
+                            >
+                                {isLoading ? (
+                                    <View>
+                                        <ActivityIndicator color={COLORS.c4} />
+                                    </View>
+                                ) : (
+                                    <Text style={{ color: COLORS.c4 }}>
+                                        Pick An Image
+                                    </Text>
+                                )}
+                            </TouchableOpacity>
+                        ) : (
+                            <View
+                                style={{
+                                    padding: 10,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: 5,
+                                }}
+                            >
+                                <Avatar.Image
+                                    size={96}
+                                    source={{ uri: image }}
+                                />
+                                <Button
+                                    buttonStyle={{
+                                        borderColor: COLORS.c3,
+                                        borderWidth: 2,
+                                        width: "80%",
+                                        alignSelf: "center",
+                                        borderRadius: "10%",
+                                    }}
+                                    titleStyle={{ color: COLORS.c4 }}
+                                    title="Remove Image"
+                                    type="outline"
+                                    onPress={handleRemoveImage}
+                                />
+                            </View>
+                        )}
+                        <Input
+                            placeholder="username"
+                            value={username}
+                            leftIcon={{ type: "font-awesome", name: "user" }}
+                            onChangeText={(value) => setUsername(value)}
+                            autoCapitalize="none"
+                        />
+                        <Input
+                            placeholder="email"
+                            value={email}
+                            leftIcon={{
+                                type: "font-awesome",
+                                name: "envelope",
+                            }}
+                            onChangeText={(value) => setEmail(value)}
+                            autoCapitalize="none"
+                        />
+                        <Input
+                            placeholder="password"
+                            value={password}
+                            leftIcon={{ type: "font-awesome", name: "lock" }}
+                            onChangeText={(value) => setPassword(value)}
+                            autoCapitalize="none"
+                            // errorMessage={erroritem}
+                        />
+                        <Input
+                            placeholder="password confirmation"
+                            value={confirmPassword}
+                            leftIcon={{ type: "font-awesome", name: "lock" }}
+                            onChangeText={(value) => setConfirmPassword(value)}
+                            autoCapitalize="none"
+                            // errorMessage={erroritem}
+                        />
+                        <Button
+                            buttonStyle={{
+                                borderColor: COLORS.c3,
+                                marginVertical: SIZES.s1,
+                                borderWidth: 2,
+                                width: "75%",
+                                alignSelf: "center",
+                                borderRadius: "10%",
+                            }}
+                            titleStyle={{ color: COLORS.c4 }}
+                            title="Create New Account"
+                            type="outline"
+                            onPress={handleSignUp}
+                        />
+                    </View>
+                </View>
+            </View>
+        </KeyboardAvoidingView>
+    );
 };
 
 export default signup;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
-    width: "85%",
-    padding: 10,
-  },
-  inputBox: {
-    marginVertical: SIZES.s3,
-    padding: 10,
-    backgroundColor: COLORS.c1,
-    borderWidth: 3,
-    borderColor: COLORS.c3,
-    borderRadius: "15%",
-  },
-  logo: {
-    resizeMode: "contain",
-    alignSelf: "center",
-    width: 150,
-    height: 150,
-  },
-  newAcc: {
-    marginTop: SIZES.s2,
-    alignSelf: "center",
-  },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    inputContainer: {
+        width: "85%",
+        padding: 10,
+    },
+    inputBox: {
+        marginVertical: SIZES.s3,
+        padding: 10,
+        backgroundColor: COLORS.c1,
+        borderWidth: 3,
+        borderColor: COLORS.c3,
+        borderRadius: "15%",
+    },
+    logo: {
+        resizeMode: "contain",
+        alignSelf: "center",
+        width: 150,
+        height: 150,
+    },
+    newAcc: {
+        marginTop: SIZES.s2,
+        alignSelf: "center",
+    },
 });

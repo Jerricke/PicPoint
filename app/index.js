@@ -8,47 +8,47 @@ import useUser from "../context/useUser";
 import { FBAUTH } from "../firebaseConfig";
 
 function Index() {
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-  const { userData, setUserData } = useUser();
-  const auth = FBAUTH;
-  const [isLoading, setIsLoading] = useState(true);
+    const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+    const { userData, setUserData } = useUser();
+    const auth = FBAUTH;
+    const [isLoading, setIsLoading] = useState(true);
 
-  // RN async storage to get already launched status
-  useEffect(() => {
-    ReactNativeAsyncStorage.getItem("alreadyLaunched").then((value) => {
-      if (value === null) {
-        ReactNativeAsyncStorage.setItem("alreadyLaunched", "true");
-        setIsFirstLaunch(true);
-      }
-    });
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
+    // RN async storage to get already launched status
+    useEffect(() => {
+        ReactNativeAsyncStorage.getItem("alreadyLaunched").then((value) => {
+            if (value === null) {
+                ReactNativeAsyncStorage.setItem("alreadyLaunched", "true");
+                setIsFirstLaunch(true);
+            }
+        });
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    }, []);
 
-  // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page
-  if (isFirstLaunch) {
-    return <Redirect href="/onboardingPage" />;
-  }
-  if (!isLoading) {
-    if (userData) {
-      return <Redirect href="/(base)/(logged-in)/post" />;
+    // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page
+    if (isFirstLaunch) {
+        return <Redirect href="/onboardingPage" />;
     }
-    console.log("no user data");
-    return <Redirect href="/(base)/login" />;
-  }
+    if (!isLoading) {
+        if (userData) {
+            return <Redirect href="/(base)/(logged-in)/post" />;
+        }
+        console.log("no user data");
+        return <Redirect href="/(base)/login" />;
+    }
 
-  return (
-    <ActivityIndicator
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-      size={100}
-      color="red"
-    />
-  );
+    return (
+        <ActivityIndicator
+            style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+            size={100}
+            color="red"
+        />
+    );
 }
 
 export default Index;
