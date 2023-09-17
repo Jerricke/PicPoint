@@ -17,8 +17,6 @@ function ContentField({ content, setContent }) {
           </TouchableOpacity>
         }
         multiline
-        blurOnSubmit
-        numberOfLines={5}
         placeholder="Content"
         onChangeText={(text) => setContent(text)}
         value={content}
