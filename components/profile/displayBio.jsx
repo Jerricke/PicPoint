@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Button } from "react-native-elements";
-import { SIZES, COLORS } from "../../../constants/theme";
+import { COLORS, SIZES } from "../../constants/theme";
 
 function DisplayBio({ setIsEditing, displayData = null, ...rest }) {
   return (

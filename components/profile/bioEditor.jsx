@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
 import { setDoc, doc } from "firebase/firestore";
-import { COLORS, SIZES } from "../../../constants/theme";
+import { COLORS, SIZES } from "../../constants/theme";
 
 function BioEditor({
   bioText = null,

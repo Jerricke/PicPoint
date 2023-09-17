@@ -8,10 +8,10 @@ import { Avatar, IconButton } from "react-native-paper";
 import { setDoc, doc } from "firebase/firestore";
 import { COLORS, SIZES } from "../../../constants/theme";
 import { FBAUTH, FBDB } from "../../../firebaseConfig";
-import DisplayCard from "../../../components/login/profile/displayCard";
-import DisplayBio from "../../../components/login/profile/displayBio";
+import DisplayCard from "../../../components/profile/displayCard";
+import DisplayBio from "../../../components/profile/displayBio";
 import useUser from "../../../context/useUser";
-import BioEditor from "../../../components/login/profile/bioEditor";
+import BioEditor from "../../../components/profile/bioEditor";
 
 const profile = () => {
   const router = useRouter();
