@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -14,6 +14,7 @@ import TitleField from "../../../components/post/TitleField";
 import ContentField from "../../../components/post/ContentField";
 
 const post = () => {
+  const { userData } = useUser();
   const router = useRouter();
   const db = FBDB;
   const storage = FBSTORAGE;
@@ -22,6 +23,8 @@ const post = () => {
   const [content, setContent] = useState(null);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handlePost = async () => {};
 
   const pickImage = async () => {
     setIsLoading(true);
@@ -80,7 +83,10 @@ const post = () => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: COLORS.c5 }}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{ backgroundColor: COLORS.c5 }}
+    >
       <View style={styles.container}>
         <View style={styles.uploadContainer}>
           <TitleField title={title} setTitle={setTitle} />
@@ -139,8 +145,20 @@ const post = () => {
             </View>
           )}
         </View>
+        <Button
+          buttonStyle={{
+            borderColor: COLORS.c1,
+            borderWidth: 2,
+            borderRadius: "10%",
+            marginTop: SIZES.s3,
+          }}
+          titleStyle={{ color: COLORS.c1, fontSize: SIZES.s2 }}
+          title="Post!"
+          type="outline"
+          onPress={handlePost}
+        />
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
