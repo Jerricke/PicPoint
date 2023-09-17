@@ -112,21 +112,27 @@ const profile = () => {
             />
           )}
         </View>
-        <Button
-          buttonStyle={{
-            borderColor: COLORS.c1,
-            borderWidth: 2,
-            width: "auto",
+        <View
+          style={{
+            width: 92,
             alignSelf: "flex-end",
             marginTop: SIZES.s3,
             marginRight: "10%",
-            borderRadius: "10%",
           }}
-          titleStyle={{ color: COLORS.c4 }}
-          title="Sign Out"
-          type="outline"
-          onPress={handleSignOut}
-        />
+        >
+          <Button
+            buttonStyle={{
+              borderColor: COLORS.c1,
+              borderWidth: 2,
+              // width: "auto",
+              borderRadius: "10%",
+            }}
+            titleStyle={{ color: COLORS.c4 }}
+            title="Sign Out"
+            type="outline"
+            onPress={handleSignOut}
+          />
+        </View>
       </View>
 
       <Animated.View

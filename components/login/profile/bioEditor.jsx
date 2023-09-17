@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
 import { setDoc, doc } from "firebase/firestore";
-import { COLORS } from "../../../constants/theme";
+import { COLORS, SIZES } from "../../../constants/theme";
 
 function BioEditor({
   bioText = null,
@@ -16,7 +16,9 @@ function BioEditor({
 
   const handlePress = () => {
     setIsEditing(false);
-    handleAddBio();
+    if (bioText) {
+      handleAddBio();
+    }
   };
 
   const handleChangeText = (newText) => {
@@ -46,4 +48,16 @@ function BioEditor({
 
 export default BioEditor;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textEditContainer: {
+    alignSelf: "center",
+    width: "80%",
+    backgroundColor: COLORS.c3,
+    marginBottom: SIZES.s3,
+    borderRadius: SIZES.s1,
+  },
+  textEdit: {
+    marginHorizontal: SIZES.s2,
+    color: COLORS.c5,
+  },
+});

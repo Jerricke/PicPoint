@@ -10,20 +10,24 @@ function DisplayBio({ setIsEditing, displayData = null, ...rest }) {
         <>
           <Text style={styles.displayBioTitle}>User Bio</Text>
           <Text style={styles.displayText}>{displayData}</Text>
-          <Button
-            buttonStyle={{
-              borderColor: COLORS.c1,
-              borderWidth: 2,
-              width: "30%",
-              height: "auto",
+          <View
+            style={{
               alignSelf: "flex-end",
-              borderRadius: "10%",
+              width: 70,
             }}
-            titleStyle={{ color: COLORS.c1, fontSize: SIZES.s1 }}
-            title="Edit Bio?"
-            type="outline"
-            onPress={() => setIsEditing(true)}
-          />
+          >
+            <Button
+              buttonStyle={{
+                borderColor: COLORS.c1,
+                borderWidth: 2,
+                borderRadius: "10%",
+              }}
+              titleStyle={{ color: COLORS.c1, fontSize: SIZES.s1 }}
+              title="Edit Bio?"
+              type="outline"
+              onPress={() => setIsEditing(true)}
+            />
+          </View>
         </>
       ) : (
         <>
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
   display: {
     alignSelf: "center",
     padding: SIZES.s2,
-    width: "100%",
+    width: "95%",
   },
   displayText: {
     color: COLORS.c1,
