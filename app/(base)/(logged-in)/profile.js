@@ -39,7 +39,6 @@ const profile = () => {
   };
 
   useEffect(() => {
-    console.log(userProfile);
     Animated.parallel([
       Animated.loop(
         Animated.sequence([

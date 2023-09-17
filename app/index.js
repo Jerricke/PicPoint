@@ -32,7 +32,7 @@ function Index() {
   }
   if (!isLoading) {
     if (userData) {
-      return <Redirect href="/(base)/(logged-in)/profile" />;
+      return <Redirect href="/(base)/(logged-in)/post" />;
     }
     console.log("no user data");
     return <Redirect href="/(base)/login" />;

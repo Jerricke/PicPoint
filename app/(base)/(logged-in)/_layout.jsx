@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { Octicons } from "@expo/vector-icons";
+import { Octicons, Feather } from "@expo/vector-icons";
 import { COLORS } from "../../../constants/theme";
 
 export default function LILayout() {
@@ -13,6 +13,14 @@ export default function LILayout() {
         options={{
           tabBarIcon: ({ color }) => (
             <Octicons name="people" size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="post"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Feather name="camera" size={32} color={color} />
           ),
         }}
       />

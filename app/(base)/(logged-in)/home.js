@@ -4,13 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { collection, onSnapshot, docs } from "firebase/firestore";
 import { useLocalSearchParams } from "expo-router";
 import { FBDB } from "../../../firebaseConfig";
+import { COLORS } from "../../../constants/theme";
 
 const home = () => {
   const [displayData, setDisplayData] = useState(null);
   const db = FBDB;
 
   useEffect(() => {
-    const ref = collection(db, "community-posts");
+    const ref = collection(db, "global-posts");
 
     const subscriber = onSnapshot(ref, {
       next: (snapshot) => {
@@ -29,12 +30,18 @@ const home = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <Text> test</Text>
+    <SafeAreaView style={{ backgroundColor: COLORS.c3 }}>
+      <View style={styles.container}>
+        <Text> test</Text>
+      </View>
     </SafeAreaView>
   );
 };
 
 export default home;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
+});
