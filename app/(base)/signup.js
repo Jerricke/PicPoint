@@ -33,6 +33,7 @@ const signup = () => {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // const erroritem = !true ? "Plesae Input The Correct Password" : null;
 
@@ -42,6 +43,7 @@ const signup = () => {
 
   const handleSignUp = async () => {
     if (password === confirmPassword) {
+      setIsProcessing(true);
       try {
         const response = await createUserWithEmailAndPassword(
           auth,
@@ -56,6 +58,7 @@ const signup = () => {
             photoURL: res,
           });
           setPing(null);
+          setIsProcessing(false);
           router.push("/(logged-in)/home");
         });
       } catch (err) {
@@ -66,6 +69,7 @@ const signup = () => {
         setPassword(null);
         setConfirmPassword(null);
         setImage(null);
+        setIsProcessing(false);
       }
     }
   };
@@ -126,13 +130,20 @@ const signup = () => {
       // We're done with the blob, close and release it
       blob.close();
       const uploaded = await getDownloadURL(fileRef);
-      console.log(uploaded);
       return uploaded;
     } catch (e) {
       alert(`Error :  ${e}`);
     }
   };
 
+  if (isProcessing)
+    return (
+      <ActivityIndicator
+        style={{ alignSelf: "center", justifyContent: "center", flex: 1 }}
+        color={COLORS.c4}
+        size={100}
+      />
+    );
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <AntDesign
