@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import { StyleSheet, FlatList, Text, View, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { collection, onSnapshot, docs } from "firebase/firestore";
@@ -32,18 +32,23 @@ const home = () => {
     }, []);
 
     return (
-        <SafeAreaView style={{ backgroundColor: COLORS.c3 }}>
-            <View style={styles.container}>
+        <View style={{ backgroundColor: COLORS.c3 }}>
+            <SafeAreaView style={{ height: 120 }}>
                 <TopHeader />
+            </SafeAreaView>
+            <View style={styles.container}>
                 <View style={styles.cardContainer}>
-                    <FlatList
-                        data={displayData}
-                        renderItem={({ item }) => <PostCard data={item} />}
-                        keyExtractor={(post) => post.id}
-                    />
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        {displayData?.map((item) => (
+                            <PostCard data={item} key={item.id} />
+                        ))}
+                    </ScrollView>
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

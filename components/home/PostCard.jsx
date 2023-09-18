@@ -5,6 +5,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { COLORS, SIZES } from "../../constants/theme";
 
 function PostCard({ data }) {
+    // eslint-disable-next-line radix
     const d = new Date(parseInt(data.createdAt));
     const ds = d.toLocaleString();
     return (

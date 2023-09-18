@@ -19,7 +19,6 @@ export default TopHeader;
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
         flexDirection: "row",
         alignSelf: "center",
         borderRadius: "10%",
@@ -28,7 +27,6 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         backgroundColor: COLORS.c1,
         width: "50%",
-        marginBottom: SIZES.s1,
     },
     imageContainer: {
         resizeMode: "contain",
