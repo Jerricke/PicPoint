@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { Button, Image } from "react-native-elements";
 import { ActivityIndicator } from "react-native-paper";
 import { FBDB, FBSTORAGE } from "../../../firebaseConfig";
@@ -14,7 +14,7 @@ import TitleField from "../../../components/post/TitleField";
 import ContentField from "../../../components/post/ContentField";
 
 const post = () => {
-    const { userData } = useUser();
+    const { userProfile } = useUser();
     const router = useRouter();
     const db = FBDB;
     const storage = FBSTORAGE;
@@ -24,7 +24,22 @@ const post = () => {
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handlePost = async () => {};
+    const handlePost = async () => {
+        uploadImageAsync(image).then((res) => {
+            console.log("done uploading image"); // console.log prevents crash so we keep it here
+            handleCreateUser(res);
+        });
+    };
+
+    const handleCreateUser = async (photo) => {
+        await setDoc(doc(db, "global-posts", `global-post-${Date.now()}`), {
+            createdAt: Date.now(),
+            photoURL: photo,
+            title,
+            content,
+            userUID: userProfile.uid,
+        });
+    };
 
     const pickImage = async () => {
         setIsLoading(true);
@@ -70,9 +85,9 @@ const post = () => {
         });
 
         try {
-            const fileRef = ref(storage, `userProfiles/image-${Date.now()}`);
+            const fileRef = ref(storage, `globalPosts/image-${Date.now()}`);
             const result = await uploadBytes(fileRef, blob);
-
+            console.log("image uploaded successfully"); // I LOVE IT WHEN CONSOLE LOG FIXES MY CRASHES
             // We're done with the blob, close and release it
             blob.close();
             const uploaded = await getDownloadURL(fileRef);

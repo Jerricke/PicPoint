@@ -5,6 +5,8 @@ import { collection, onSnapshot, docs } from "firebase/firestore";
 import { useLocalSearchParams } from "expo-router";
 import { FBDB } from "../../../firebaseConfig";
 import { COLORS } from "../../../constants/theme";
+import PostCard from "../../../components/home/PostCard";
+import TopHeader from "../../../components/home/TopHeader";
 
 const home = () => {
     const [displayData, setDisplayData] = useState(null);
@@ -32,7 +34,8 @@ const home = () => {
     return (
         <SafeAreaView style={{ backgroundColor: COLORS.c3 }}>
             <View style={styles.container}>
-                <Text> test</Text>
+                <TopHeader />
+                <PostCard data={displayData} />
             </View>
         </SafeAreaView>
     );
