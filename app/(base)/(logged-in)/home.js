@@ -32,7 +32,7 @@ const home = () => {
     }, []);
 
     return (
-        <View style={{ backgroundColor: COLORS.c3 }}>
+        <View style={{ backgroundColor: COLORS.c3, flex: 1 }}>
             <SafeAreaView style={{ height: 120 }}>
                 <TopHeader />
             </SafeAreaView>
@@ -56,10 +56,9 @@ export default home;
 
 const styles = StyleSheet.create({
     container: {
-        height: "100%",
+        flex: 1,
     },
     cardContainer: {
-        flex: 1,
         flexDirection: "column",
         gap: SIZES.s2,
         alignItems: "center",

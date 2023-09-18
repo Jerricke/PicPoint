@@ -88,7 +88,8 @@ const signup = () => {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.5,
+            fileSize: true,
         });
 
         // console.log(result);
@@ -111,26 +112,29 @@ const signup = () => {
     };
 
     const uploadImageAsync = async (uri) => {
-        const blob = await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                resolve(xhr.response);
-            };
-            xhr.onerror = function (e) {
-                console.log(e);
-                reject(new TypeError("Network request failed"));
-            };
-            xhr.responseType = "blob";
-            xhr.open("GET", uri, true);
-            xhr.send(null);
-        });
+        // const blob = await new Promise((resolve, reject) => {
+        //     const xhr = new XMLHttpRequest();
+        //     xhr.onload = function () {
+        //         resolve(xhr.response);
+        //     };
+        //     xhr.onerror = function (e) {
+        //         console.log(e);
+        //         reject(new TypeError("Network request failed"));
+        //     };
+        //     xhr.responseType = "blob";
+        //     xhr.open("GET", uri, true);
+        //     xhr.send(null);
+        // });
+
+        const img = await fetch(uri);
+        const blobbytes = await img.blob();
 
         try {
             const fileRef = ref(storage, `userProfiles/image-${Date.now()}`);
-            const result = await uploadBytes(fileRef, blob);
+            const result = await uploadBytes(fileRef, blobbytes);
 
             // We're done with the blob, close and release it
-            blob.close();
+            blobbytes.close();
             const uploaded = await getDownloadURL(fileRef);
             return uploaded;
         } catch (e) {

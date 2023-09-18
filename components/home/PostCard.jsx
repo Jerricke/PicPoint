@@ -32,8 +32,9 @@ function PostCard({ data }) {
                     <Image
                         source={{ uri: data.photoURL }}
                         style={{
-                            width: 240,
-                            height: 180,
+                            width: 300,
+                            height: 240,
+                            // resizeMode: "fit",
                         }}
                         PlaceholderContent={
                             <ActivityIndicator color={COLORS.c5} size={42} />
@@ -55,21 +56,25 @@ const styles = StyleSheet.create({
         borderRadius: "10%",
         padding: SIZES.s2,
         marginBottom: SIZES.s2,
-        flexDirection: "row",
+        flexDirection: "column",
     },
     userContainer: {
+        padding: 6,
+        width: "100%",
+        flexDirection: "row",
         marginRight: SIZES.s1,
+        gap: SIZES.s3,
         alignItems: "center",
+        marginBottom: SIZES.s1,
     },
     username: {
-        marginTop: SIZES.s2,
-        fontSize: SIZES.s2,
+        fontSize: SIZES.s3,
     },
     contentContainer: {
         padding: SIZES.s1,
         borderRadius: "15%",
         backgroundColor: COLORS.c6,
-        width: 250,
+        width: 320,
     },
     imageContainer: {
         marginTop: SIZES.s1,
