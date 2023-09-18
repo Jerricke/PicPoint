@@ -7,6 +7,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Button, Image } from "react-native-elements";
 import { ActivityIndicator } from "react-native-paper";
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import { FBDB, FBSTORAGE } from "../../../firebaseConfig";
 import useUser from "../../../context/useUser";
 import { COLORS, SIZES } from "../../../constants/theme";
@@ -53,7 +54,7 @@ const post = () => {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.1,
         });
 
         // console.log(result);
@@ -88,6 +89,10 @@ const post = () => {
         //     xhr.responseType = "blob";
         //     xhr.open("GET", uri, true);
         //     xhr.send(null);
+        // });
+        // const manipImg = await manipulateAsync(, {
+        //     compress: 0.5,
+        //     format: SaveFormat.PNG,
         // });
         const img = await fetch(uri);
         const blobbytes = await img.blob();
