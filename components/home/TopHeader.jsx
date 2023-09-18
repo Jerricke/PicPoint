@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         backgroundColor: COLORS.c1,
         width: "50%",
+        marginBottom: SIZES.s1,
     },
     imageContainer: {
         resizeMode: "contain",

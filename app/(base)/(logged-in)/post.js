@@ -37,7 +37,13 @@ const post = () => {
             photoURL: photo,
             title,
             content,
-            userUID: userProfile.uid,
+            userDN: userProfile.displayName,
+            userPFP: userProfile.photoURL,
+        }).then(() => {
+            setTitle(null);
+            setContent(null);
+            setImage(null);
+            router.push("/home");
         });
     };
 
