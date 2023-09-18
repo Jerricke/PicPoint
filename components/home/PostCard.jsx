@@ -12,8 +12,11 @@ function PostCard({ data }) {
         <View style={styles.container}>
             <View style={styles.userContainer}>
                 <Image
-                    source={{ uri: data.userPFP }}
-                    style={{ width: 60, height: 60, borderRadius: "100%" }}
+                    source={{ uri: data?.userPFP }}
+                    style={{ width: 60, height: 60, borderRadius: 60 }}
+                    PlaceholderContent={
+                        <ActivityIndicator color={COLORS.c3} size={22} />
+                    }
                 />
                 <Text style={styles.username}>{data.userDN}</Text>
             </View>

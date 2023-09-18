@@ -39,6 +39,7 @@ const profile = () => {
     };
 
     useEffect(() => {
+        setPing(null);
         Animated.parallel([
             Animated.loop(
                 Animated.sequence([
@@ -74,7 +75,7 @@ const profile = () => {
             ),
         ]).start();
         // console.log(userData?.photoURL);
-    }, []);
+    }, [userProfile]);
 
     const handleAddBio = async () => {
         const makeData = await setDoc(doc(FBDB, "users", userProfile.uid), {
