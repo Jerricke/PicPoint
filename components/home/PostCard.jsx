@@ -12,7 +12,7 @@ function PostCard({ data }) {
         <View style={styles.container}>
             <View style={styles.userContainer}>
                 <Image
-                    source={{ uri: data?.userPFP }}
+                    // source={{ uri: data?.userPFP }}
                     style={{ width: 60, height: 60, borderRadius: 60 }}
                     PlaceholderContent={
                         <ActivityIndicator color={COLORS.c3} size={22} />
@@ -30,7 +30,7 @@ function PostCard({ data }) {
                 <Text style={{ fontSize: SIZES.s2 }}>{data.content}</Text>
                 <View style={styles.imageContainer}>
                     <Image
-                        source={{ uri: data.photoURL }}
+                        // source={{ uri: data.photoURL }}
                         style={{
                             width: 300,
                             height: 240,

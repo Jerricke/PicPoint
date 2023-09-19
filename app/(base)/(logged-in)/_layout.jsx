@@ -35,6 +35,13 @@ export default function LILayout() {
                     ),
                 }}
             />
+            <Tabs.Screen
+                name="lp"
+                options={{
+                    href: null,
+                    presentation: "modal",
+                }}
+            />
         </Tabs>
     );
 }

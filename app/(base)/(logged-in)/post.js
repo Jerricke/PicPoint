@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, doc, setDoc } from "firebase/firestore";
@@ -30,6 +30,10 @@ const post = () => {
             console.log("done uploading image"); // console.log prevents crash so we keep it here
             handleCreateUser(res);
         });
+    };
+
+    const handleNext = () => {
+        router.push({ pathname: "/lp", params: {} });
     };
 
     const handleCreateUser = async (photo) => {
@@ -186,7 +190,7 @@ const post = () => {
                     titleStyle={{ color: COLORS.c1, fontSize: SIZES.s2 }}
                     title="Post!"
                     type="outline"
-                    onPress={handlePost}
+                    onPress={handleNext}
                 />
             </View>
         </KeyboardAvoidingView>
