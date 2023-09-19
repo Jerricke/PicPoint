@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { API_KEY } from "@env";
-import { useRouter, Link } from "expo-router";
+import { useRouter, Link, useLocalSearchParams } from "expo-router";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Button } from "react-native-elements";
@@ -13,6 +13,8 @@ import { FBDB, FBSTORAGE } from "../../../firebaseConfig";
 import { COLORS } from "../../../constants/theme";
 
 const lp = () => {
+    const { image, title, content } = useLocalSearchParams();
+
     const { userProfile } = useUser();
     const router = useRouter();
     const db = FBDB;
@@ -22,10 +24,6 @@ const lp = () => {
     const [location, setLocation] = useState(null);
     const [pin, setPin] = useState({});
     const [region, setRegion] = useState({});
-
-    const [title, setTitle] = useState(null);
-    const [content, setContent] = useState(null);
-    const [image, setImage] = useState(null);
 
     useEffect(() => {
         const getPermissions = async () => {
@@ -70,17 +68,14 @@ const lp = () => {
             userDN: userProfile.displayName,
             userPFP: userProfile.photoURL,
         }).then(() => {
-            setTitle(null);
-            setContent(null);
-            setImage(null);
             router.push("/home");
         });
     };
 
     const uploadImageAsync = async (uri) => {
+        console.log("in image upload block");
         const img = await fetch(uri);
         const blobbytes = await img.blob();
-        console.log("in image upload block");
 
         try {
             const fileRef = ref(storage, `globalPosts/image-${Date.now()}`);

@@ -17,13 +17,16 @@ const post = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleNext = () => {
-        router.push({
-            pathname: "/lp",
-            params: { title, content, image },
-        });
-        // if (title && content && image) {
-        // }
-        // alert("Please fill out the fields!");
+        if (title && content && image) {
+            router.push({
+                pathname: "/lp",
+                params: { title, content, image },
+            });
+            setTitle(null);
+            setContent(null);
+            setImage(null);
+        }
+        alert("Please fill out the fields!");
     };
 
     const pickImage = async () => {
