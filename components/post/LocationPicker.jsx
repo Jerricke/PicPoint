@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import MapView, { Marker } from "react-native-maps";

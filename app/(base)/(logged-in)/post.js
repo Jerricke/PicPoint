@@ -1,55 +1,29 @@
 import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, doc, setDoc } from "firebase/firestore";
 import { Button, Image } from "react-native-elements";
 import { ActivityIndicator } from "react-native-paper";
-import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
-import { FBDB, FBSTORAGE } from "../../../firebaseConfig";
-import useUser from "../../../context/useUser";
 import { COLORS, SIZES } from "../../../constants/theme";
 import TitleField from "../../../components/post/TitleField";
 import ContentField from "../../../components/post/ContentField";
 
 const post = () => {
-    const { userProfile } = useUser();
     const router = useRouter();
-    const db = FBDB;
-    const storage = FBSTORAGE;
 
     const [title, setTitle] = useState(null);
     const [content, setContent] = useState(null);
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handlePost = async () => {
-        uploadImageAsync(image).then((res) => {
-            console.log("done uploading image"); // console.log prevents crash so we keep it here
-            handleCreateUser(res);
-        });
-    };
-
     const handleNext = () => {
-        router.push({ pathname: "/lp", params: {} });
-    };
-
-    const handleCreateUser = async (photo) => {
-        await setDoc(doc(db, "global-posts", `global-post-${Date.now()}`), {
-            createdAt: Date.now(),
-            photoURL: photo,
-            title,
-            content,
-            userDN: userProfile.displayName,
-            userPFP: userProfile.photoURL,
-        }).then(() => {
-            setTitle(null);
-            setContent(null);
-            setImage(null);
-            router.push("/home");
+        router.push({
+            pathname: "/lp",
+            params: { title, content, image },
         });
+        // if (title && content && image) {
+        // }
+        // alert("Please fill out the fields!");
     };
 
     const pickImage = async () => {
@@ -78,40 +52,6 @@ const post = () => {
 
     const handleRemoveImage = () => {
         setImage(null);
-    };
-
-    const uploadImageAsync = async (uri) => {
-        // const blob = await new Promise((resolve, reject) => {
-        //     const xhr = new XMLHttpRequest();
-        //     xhr.onload = function () {
-        //         resolve(xhr.response);
-        //     };
-        //     xhr.onerror = function (e) {
-        //         console.log(e);
-        //         reject(new TypeError("Network request failed"));
-        //     };
-        //     xhr.responseType = "blob";
-        //     xhr.open("GET", uri, true);
-        //     xhr.send(null);
-        // });
-        // const manipImg = await manipulateAsync(, {
-        //     compress: 0.5,
-        //     format: SaveFormat.PNG,
-        // });
-        const img = await fetch(uri);
-        const blobbytes = await img.blob();
-
-        try {
-            const fileRef = ref(storage, `globalPosts/image-${Date.now()}`);
-            const result = await uploadBytes(fileRef, blobbytes);
-            console.log("image uploaded successfully"); // I LOVE IT WHEN CONSOLE LOG FIXES MY CRASHES
-            // We're done with the blob, close and release it
-            blobbytes.close();
-            const uploaded = await getDownloadURL(fileRef);
-            return uploaded;
-        } catch (e) {
-            alert(`Error :  ${e}`);
-        }
     };
 
     return (
@@ -188,7 +128,7 @@ const post = () => {
                         marginTop: SIZES.s3,
                     }}
                     titleStyle={{ color: COLORS.c1, fontSize: SIZES.s2 }}
-                    title="Post!"
+                    title="Next"
                     type="outline"
                     onPress={handleNext}
                 />
