@@ -24,6 +24,10 @@ function PostCard({ data }) {
                 <Text style={{ fontSize: SIZES.s3, marginBottom: 6 }}>
                     {data.title}
                 </Text>
+                <Text style={{ fontSize: SIZES.s1, marginBottom: 6 }}>
+                    Location:{" "}
+                    {data.lat ? `${data.lat}, ${data.lng}` : `no location data`}
+                </Text>
                 <Text style={{ fontSize: SIZES.s1, marginBottom: SIZES.s1 }}>
                     {ds}
                 </Text>
