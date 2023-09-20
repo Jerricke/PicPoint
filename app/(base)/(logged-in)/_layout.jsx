@@ -20,6 +20,14 @@ export default function LILayout() {
                 }}
             />
             <Tabs.Screen
+                name="map"
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Feather name="map" size={32} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
                 name="post"
                 options={{
                     tabBarIcon: ({ color }) => (
