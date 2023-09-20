@@ -67,6 +67,7 @@ const lp = () => {
             lat: pin.latitude,
             userDN: userProfile.displayName,
             userPFP: userProfile.photoURL,
+            userUID: userProfile.uid,
         }).then(() => {
             router.push("/home");
         });
