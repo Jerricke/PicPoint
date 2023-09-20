@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
