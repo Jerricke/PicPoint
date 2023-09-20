@@ -25,8 +25,9 @@ const post = () => {
             setTitle(null);
             setContent(null);
             setImage(null);
+        } else {
+            alert("Please fill out the fields!");
         }
-        alert("Please fill out the fields!");
     };
 
     const pickImage = async () => {

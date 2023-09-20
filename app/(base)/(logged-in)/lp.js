@@ -7,6 +7,7 @@ import { useRouter, Link, useLocalSearchParams } from "expo-router";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Button } from "react-native-elements";
+import { ActivityIndicator } from "react-native-paper";
 import useUser from "../../../context/useUser";
 import LocationPicker from "../../../components/post/LocationPicker";
 import { FBDB, FBSTORAGE } from "../../../firebaseConfig";
@@ -24,6 +25,7 @@ const lp = () => {
     const [location, setLocation] = useState(null);
     const [pin, setPin] = useState({});
     const [region, setRegion] = useState({});
+    const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
         const getPermissions = async () => {
@@ -51,6 +53,7 @@ const lp = () => {
     }, []);
 
     const handlePost = async () => {
+        setIsUploading(true);
         uploadImageAsync(image).then((res) => {
             console.log("done uploading image"); // console.log prevents crash so we keep it here
             handleCreatePost(res);
@@ -69,6 +72,7 @@ const lp = () => {
             userPFP: userProfile.photoURL,
             userUID: userProfile.uid,
         }).then(() => {
+            setIsUploading(false);
             router.push("/home");
         });
     };
@@ -93,51 +97,57 @@ const lp = () => {
 
     return (
         <KeyboardAvoidingView behavior="padding" style={{ height: "100%" }}>
-            <LocationPicker
-                isLoading={isLoading}
-                location={location}
-                pin={pin}
-                setPin={setPin}
-                region={region}
-            />
-            <View style={{ flex: 1 }}>
-                <Button
-                    title="Post!"
-                    buttonStyle={{
-                        backgroundColor: COLORS.c5,
-                        borderColor: COLORS.c5,
-                    }}
-                    titleStyle={{ color: COLORS.c1 }}
-                    type="outline"
-                    onPress={handlePost}
-                />
-                <GooglePlacesAutocomplete
-                    placeholder="Search"
-                    fetchDetails
-                    GooglePlacesSearchQuery={{
-                        rankby: "distance",
-                    }}
-                    onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        console.log(details.geometry.location);
-                        setPin({
-                            longitude: details.geometry.location.lng,
-                            latitude: details.geometry.location.lat,
-                        });
-                        setRegion({
-                            longitude: details.geometry.location.lng,
-                            latitude: details.geometry.location.lat,
-                            latitudeDelta: 0.1,
-                            longitudeDelta: 0.04,
-                        });
-                    }}
-                    query={{
-                        key: API_KEY,
-                        language: "en",
-                        location: `${location?.longitude}, ${location?.latitude}`,
-                    }}
-                />
-            </View>
+            {isUploading ? (
+                <ActivityIndicator style={{ flex: 1 }} color="red" size={64} />
+            ) : (
+                <>
+                    <LocationPicker
+                        isLoading={isLoading}
+                        location={location}
+                        pin={pin}
+                        setPin={setPin}
+                        region={region}
+                    />
+                    <View style={{ flex: 1 }}>
+                        <Button
+                            title="Post!"
+                            buttonStyle={{
+                                backgroundColor: COLORS.c5,
+                                borderColor: COLORS.c5,
+                            }}
+                            titleStyle={{ color: COLORS.c1 }}
+                            type="outline"
+                            onPress={handlePost}
+                        />
+                        <GooglePlacesAutocomplete
+                            placeholder="Search"
+                            fetchDetails
+                            GooglePlacesSearchQuery={{
+                                rankby: "distance",
+                            }}
+                            onPress={(data, details = null) => {
+                                // 'details' is provided when fetchDetails = true
+                                console.log(details.geometry.location);
+                                setPin({
+                                    longitude: details.geometry.location.lng,
+                                    latitude: details.geometry.location.lat,
+                                });
+                                setRegion({
+                                    longitude: details.geometry.location.lng,
+                                    latitude: details.geometry.location.lat,
+                                    latitudeDelta: 0.1,
+                                    longitudeDelta: 0.04,
+                                });
+                            }}
+                            query={{
+                                key: API_KEY,
+                                language: "en",
+                                location: `${location?.longitude}, ${location?.latitude}`,
+                            }}
+                        />
+                    </View>
+                </>
+            )}
         </KeyboardAvoidingView>
     );
 };

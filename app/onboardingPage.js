@@ -24,8 +24,13 @@ function onboardingPage() {
                                 source={require("../assets/undraw_Social_interaction_re_dyjh.png")}
                             />
                         ),
-                        title: <Text style={styles.title}>Socialize</Text>,
-                        subtitle: "Share Your Experiences",
+                        title: (
+                            <Text style={styles.title}>
+                                Socialize with PicPoint
+                            </Text>
+                        ),
+                        subtitle:
+                            "Connect with others through PicPoint and share your experiences!",
                     },
                     {
                         backgroundColor: "#fff",
@@ -37,19 +42,23 @@ function onboardingPage() {
                         ),
                         title: <Text style={styles.title}>Upload Images</Text>,
                         subtitle:
-                            "Post Images And Show Others The Beautiful World Around You",
+                            "Post images and show others the beauitful world that surrounds you!",
                     },
                     {
                         backgroundColor: "#fff",
                         image: (
                             <Image
                                 style={styles.swiperImage}
-                                source={require("../assets/undraw_Social_sharing_re_pvmr.png")}
+                                source={require("../assets/undraw_World_re_768g.png")}
                             />
                         ),
-                        title: <Text style={styles.title}>Be Yourself</Text>,
+                        title: (
+                            <Text style={styles.title}>
+                                See What&apos;s Around
+                            </Text>
+                        ),
                         subtitle:
-                            "Customize Your Own Profile to Best Show Who You Are",
+                            "Look at what other's have shared around the world!",
                     },
                 ]}
             />
