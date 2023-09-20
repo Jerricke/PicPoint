@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
-import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Input, Image, Button } from "react-native-elements";
 import {
@@ -46,67 +46,77 @@ function PostCard({ data }) {
     const ds = d.toLocaleString();
     return (
         <PaperProvider>
-            <View style={styles.container}>
-                <View style={styles.userContainer}>
-                    <Image
-                        // source={{ uri: data?.userPFP }}
-                        style={{ width: 60, height: 60, borderRadius: 60 }}
-                        PlaceholderContent={
-                            <ActivityIndicator color={COLORS.c3} size={22} />
-                        }
-                    />
-                    <Text style={styles.username}>{data.userDN}</Text>
-                </View>
-                <TouchableOpacity
-                    style={styles.contentContainer}
-                    onPress={showModal}
-                >
-                    <Portal>
-                        <Modal
-                            visible={visible}
-                            onDismiss={hideModal}
-                            contentContainerStyle={styles.containerStyle}
-                        >
-                            <PostCardModal
-                                data={data}
-                                handleSave={handleSave}
-                                handleDelete={handleDelete}
-                            />
-                        </Modal>
-                    </Portal>
-                    <Text style={{ fontSize: SIZES.s3, marginBottom: 6 }}>
-                        {data.title}
-                    </Text>
-                    <Text style={{ fontSize: SIZES.s1, marginBottom: 6 }}>
-                        Location:{" "}
-                        {data.lat
-                            ? `${data.lat}, ${data.lng}`
-                            : `no location data`}
-                    </Text>
-                    <Text
-                        style={{ fontSize: SIZES.s1, marginBottom: SIZES.s1 }}
-                    >
-                        {ds}
-                    </Text>
-                    <Text style={{ fontSize: SIZES.s2 }}>{data.content}</Text>
-                    <View style={styles.imageContainer}>
+            <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
+                    <View style={styles.userContainer}>
                         <Image
-                            // source={{ uri: data.photoURL }}
-                            style={{
-                                width: 300,
-                                height: 240,
-                                // resizeMode: "fit",
-                            }}
+                            // source={{ uri: data?.userPFP }}
+                            style={{ width: 60, height: 60, borderRadius: 60 }}
                             PlaceholderContent={
                                 <ActivityIndicator
-                                    color={COLORS.c5}
-                                    size={42}
+                                    color={COLORS.c3}
+                                    size={22}
                                 />
                             }
                         />
+                        <Text style={styles.username}>{data.userDN}</Text>
                     </View>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        style={styles.contentContainer}
+                        onPress={showModal}
+                    >
+                        <Portal>
+                            <Modal
+                                visible={visible}
+                                onDismiss={hideModal}
+                                contentContainerStyle={styles.containerStyle}
+                            >
+                                <PostCardModal
+                                    data={data}
+                                    handleSave={handleSave}
+                                    handleDelete={handleDelete}
+                                />
+                            </Modal>
+                        </Portal>
+                        <Text style={{ fontSize: SIZES.s3, marginBottom: 6 }}>
+                            {data.title}
+                        </Text>
+                        <Text style={{ fontSize: SIZES.s1, marginBottom: 6 }}>
+                            Location:{" "}
+                            {data.lat
+                                ? `${data.lat}, ${data.lng}`
+                                : `no location data`}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: SIZES.s1,
+                                marginBottom: SIZES.s1,
+                            }}
+                        >
+                            {ds}
+                        </Text>
+                        <Text style={{ fontSize: SIZES.s2 }}>
+                            {data.content}
+                        </Text>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                // source={{ uri: data.photoURL }}
+                                style={{
+                                    width: 300,
+                                    height: 240,
+                                    // resizeMode: "fit",
+                                }}
+                                PlaceholderContent={
+                                    <ActivityIndicator
+                                        color={COLORS.c5}
+                                        size={42}
+                                    />
+                                }
+                            />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
         </PaperProvider>
     );
 }
