@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Input, Button } from "react-native-elements";
 import { COLORS, SIZES } from "../../constants/theme";
 
-function PostCardModal({ data }) {
+function PostCardModal({ data, handleSave, handleDelete }) {
     const [textContent, setTextContent] = useState(data?.content);
     const [textTitle, setTextTitle] = useState(data?.title);
     const [editingContent, setEditingContent] = useState(false);
@@ -57,7 +57,7 @@ function PostCardModal({ data }) {
                     }}
                     title="Delete Post"
                     type="outline"
-                    onPress={() => {}}
+                    onPress={handleDelete}
                 />
             </View>
             {editingTitle ? (
@@ -92,7 +92,7 @@ function PostCardModal({ data }) {
                 }}
                 title="Submit Changes"
                 type="outline"
-                onPress={() => {}}
+                onPress={() => handleSave(textTitle, textContent)}
             />
         </>
     );

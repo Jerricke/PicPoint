@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
@@ -10,9 +11,11 @@ import {
     IconButton,
 } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { COLORS, SIZES } from "../../constants/theme";
 import useUser from "../../context/useUser";
 import PostCardModal from "./PostCardModal";
+import { FBDB as db } from "../../firebaseConfig";
 
 function PostCard({ data }) {
     const { userProfile } = useUser();
@@ -26,11 +29,19 @@ function PostCard({ data }) {
     };
     const hideModal = () => setVisible(false);
 
-    const handleSaveTitle = (newTitle) => {};
+    const handleSave = async (newTitle, newContent) => {
+        await setDoc(doc(db, "global-posts", `${data.id}`), {
+            ...data,
+            title: newTitle,
+            content: newContent,
+            updatedAt: Date.now(),
+        });
+    };
 
-    const handleSaveContent = (newContent) => {};
+    const handleDelete = async () => {
+        await deleteDoc(doc(db, "global-posts", `${data.id}`));
+    };
 
-    // eslint-disable-next-line radix
     const d = new Date(parseInt(data.createdAt));
     const ds = d.toLocaleString();
     return (
@@ -56,7 +67,11 @@ function PostCard({ data }) {
                             onDismiss={hideModal}
                             contentContainerStyle={styles.containerStyle}
                         >
-                            <PostCardModal data={data} />
+                            <PostCardModal
+                                data={data}
+                                handleSave={handleSave}
+                                handleDelete={handleDelete}
+                            />
                         </Modal>
                     </Portal>
                     <Text style={{ fontSize: SIZES.s3, marginBottom: 6 }}>
