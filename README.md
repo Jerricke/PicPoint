@@ -24,18 +24,10 @@ More Info: [Github](https://github.com/Jerricke/PicPoint)
 <img src="/assets/readme/image-6.png" width="200" height="400" />
 <img src="/assets/readme/image-7.png" width="200" height="400" />
 
-<!-- ![Sign In](/assets/readme/image-1.png) -->
-<!-- ![Sign Up](/assets/readme/image-2.png)
-![Home](/assets/readme/image-3.png)
-![Global Map](/assets/readme/image-4.png)
-![New-Post](/assets/readme/image-5.png)
-![Select Location](/assets/readme/image-6.png)
-![Profile](/assets/readme/image-7.png) -->
-
-## Motivation and Challenge
+## Motivation
 The original motivation for this project was to build a simple mobile application that allows users to record and share their personal trips (trips via walking, biking, cycling, scooters, etc.). Expanding on the idea from [Triply](https://github.com/cmphill/python-p4-project-vite#Triply), the goal was to  switch the medium from web to mobile so that I could incorporate geocoding and live navigation. However, with the time constraiints of just 3 weeks, I encountered a significant challenge 2 weeks in that ultimately led me to pivoting and creating PicPoint instead. PicPoint is an app that is built on the knowledge and skills I learned from developing the Triply mobile application. PicPoint inherits the core concepts of sharing and interacting with other users, allowing users to connect and share information.
 
-## Challenge
+## Challenges
 The aforementioned challenge while developing Triply was the difficulty of implenting live navigation and route generation. After days of researching and learning about the concept of live navigation, I decided that it would take too much time out of my already tight 3 weeks deadline to develop the application. 
 
 ## Plan
@@ -84,6 +76,6 @@ In the camera tab, you can create a new post by filling out the forms and select
 The map feature allows you to view all the posts around the globe! simply tap on any one of the pins to see the photo that belongs to that location!
 
 ## Credits
-[Me](https://github.com/Jerricke), the main contributor of this final capstone project for the Flatiron Software Engineering bootcamp.
+[Me](https://github.com/Jerricke), Jerrick, the main contributor of this final capstone project for the Flatiron Software Engineering bootcamp.
 
 I am grateful for the Flatiron school community and staff team for supporting me along the way, as well as my good friend Vlad for providing insights.
