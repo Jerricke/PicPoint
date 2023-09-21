@@ -16,13 +16,13 @@ More Info: [Github](https://github.com/Jerricke/PicPoint)
     - [Credits](#Credits)
 
 ## Preview
-![Sign In](/assets/readme/image-1.png|width=300)
-![Sign Up](/assets/readme/image-2.png|width=300)
-![Home](/assets/readme/image-3.png|width=300)
-![Global Map](/assets/readme/image-4.png|width=300)
-![New-Post](/assets/readme/image-5.png|width=300)
-![Select Location](/assets/readme/image-6.png|width=300)
-![Profile](/assets/readme/image-7.png|width=300)
+![Sign In](/assets/readme/image-1.png | width=300)
+![Sign Up](/assets/readme/image-2.png | width=300)
+![Home](/assets/readme/image-3.png | width=300)
+![Global Map](/assets/readme/image-4.png | width=300)
+![New-Post](/assets/readme/image-5.png | width=300)
+![Select Location](/assets/readme/image-6.png | width=300)
+![Profile](/assets/readme/image-7.png | width=300)
 
 ## Motivation and Challenge
 The original motivation for this project was to build a simple mobile application that allows users to record and share their personal trips (trips via walking, biking, cycling, scooters, etc.). Expanding on the idea from [Triply](https://github.com/cmphill/python-p4-project-vite#Triply), the goal was to  switch the medium from web to mobile so that I could incorporate geocoding and live navigation. However, with the time constraiints of just 3 weeks, I encountered a significant challenge 2 weeks in that ultimately led me to pivoting and creating PicPoint instead. PicPoint is an app that is built on the knowledge and skills I learned from developing the Triply mobile application. PicPoint inherits the core concepts of sharing and interacting with other users, allowing users to connect and share information.
