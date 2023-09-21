@@ -16,8 +16,15 @@ More Info: [Github](https://github.com/Jerricke/PicPoint)
     - [Credits](#Credits)
 
 ## Preview
-<!-- ![Sign In](/assets/readme/image-1.png) -->
 <img src="/assets/readme/image-1.png" width="200" height="400" />
+<img src="/assets/readme/image-2.png" width="200" height="400" />
+<img src="/assets/readme/image-3.png" width="200" height="400" />
+<img src="/assets/readme/image-4.png" width="200" height="400" />
+<img src="/assets/readme/image-5.png" width="200" height="400" />
+<img src="/assets/readme/image-6.png" width="200" height="400" />
+<img src="/assets/readme/image-7.png" width="200" height="400" />
+
+<!-- ![Sign In](/assets/readme/image-1.png) -->
 <!-- ![Sign Up](/assets/readme/image-2.png)
 ![Home](/assets/readme/image-3.png)
 ![Global Map](/assets/readme/image-4.png)
