@@ -27,7 +27,7 @@ function Index() {
     }, []);
 
     // Checks if it is the first launch, if so load onboarding page, otherwise direct straight to login page
-    if (!isFirstLaunch) {
+    if (isFirstLaunch) {
         return <Redirect href="/onboardingPage" />;
     }
     if (!isLoading) {

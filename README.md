@@ -50,7 +50,7 @@ Include full CRUD for main components of the application.
 
 ## TechStack
 The main tools I've used for the application are:
-Javascript, React Native, Expo, and Firebase, React native packages(MapView, ReactNativePaper, ImagePicker), Figma (for planning), Google locations API
+Javascript, React Native, Expo, and Firebase, React native packages(MapView, ReactNativePaper, ImagePicker), Figma (for planning), Google Places API
 
 ## Setup
 Fork and clone the repository. CD into the directory and run the folllowing commands to install and run the application.
